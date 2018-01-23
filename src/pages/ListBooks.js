@@ -1,35 +1,19 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import * as BooksAPI from '../utils/BooksAPI'
+import PropTypes from 'prop-types'
 
 import Loader from '../components/Loader'
 import BookShelf from '../components/BookShelf'
 
 class ListBooks extends Component {
-  state = {
-    loading: true,
-    books: []
-  }
-
-  componentDidMount() {
-    BooksAPI.getAll()
-      .then((books) => {
-        this.setState({ loading: false, books })
-      })
-  }
-
-  onChangeShelf(id, shelf) {
-    BooksAPI.update({ id }, shelf)
-      .then(() => this.setState((state) => ({
-        books: state.books.map((book) => {
-          if (book.id === id) book.shelf = shelf
-          return book
-        })
-      })))
+  static propTypes = {
+    loading: PropTypes.bool.isRequired,
+    books: PropTypes.arrayOf(PropTypes.object).isRequired,
+    onChangeShelf: PropTypes.func.isRequired
   }
 
   render() {
-    const { loading, books } = this.state
+    const { loading, books, onChangeShelf } = this.props
 
     return (
       <div className='list-books'>
@@ -41,9 +25,9 @@ class ListBooks extends Component {
             <Loader />
           ) : (
             <div>
-              <BookShelf title={ 'Currently Reading' } shelf={ 'currentlyReading' } books={ books } onChangeShelf={ (id, shelf) => this.onChangeShelf(id, shelf) } />
-              <BookShelf title={ 'Want to Read' } shelf={ 'wantToRead' } books={ books } onChangeShelf={ (id, shelf) => this.onChangeShelf(id, shelf) } />
-              <BookShelf title={ 'Read' } shelf={ 'read' } books={ books } onChangeShelf={ (id, shelf) => this.onChangeShelf(id, shelf) } />
+              <BookShelf title={ 'Currently Reading' } shelf={ 'currentlyReading' } books={ books } onChangeShelf={ onChangeShelf } />
+              <BookShelf title={ 'Want to Read' } shelf={ 'wantToRead' } books={ books } onChangeShelf={ onChangeShelf } />
+              <BookShelf title={ 'Read' } shelf={ 'read' } books={ books } onChangeShelf={ onChangeShelf } />
             </div>
           ) }
         </div>
