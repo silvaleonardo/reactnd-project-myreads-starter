@@ -18,9 +18,11 @@ class BookItem extends Component {
   }
 
   onChangeBookShelf(selected) {
-    const { book: { id }, onChangeShelf } = this.props
+    const { book, onChangeShelf } = this.props
 
-    onChangeShelf(id, selected)
+    book.shelf = selected
+
+    onChangeShelf(book)
   }
 
   render() {

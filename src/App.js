@@ -19,13 +19,10 @@ class BooksApp extends React.Component {
       })
   }
 
-  onChangeShelf(id, shelf) {
-    BooksAPI.update({ id }, shelf)
+  onChangeShelf(changedBook) {
+    BooksAPI.update(changedBook, changedBook.shelf)
       .then(() => this.setState((state) => ({
-        books: state.books.map((book) => {
-          if (book.id === id) book.shelf = shelf
-          return book
-        })
+        books: state.books.map((book) => (book.id === changedBook.id ? changedBook : book))
       })))
   }
 
@@ -35,7 +32,7 @@ class BooksApp extends React.Component {
     return (
       <div className='app'>
         <Route exact path='/' render={ () => (
-          <ListBooks loading={ loading } books={ books } onChangeShelf={ (id, shelf) => this.onChangeShelf(id, shelf) } />
+          <ListBooks loading={ loading } books={ books } onChangeShelf={ (book) => this.onChangeShelf(book) } />
         ) } />
 
         <Route path='/search' component={ SearchBooks } />

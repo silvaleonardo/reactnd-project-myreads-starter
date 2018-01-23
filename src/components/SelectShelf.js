@@ -7,6 +7,10 @@ class BookShelf extends Component {
     onChange: PropTypes.func.isRequired
   }
 
+  static defaultProps = {
+    shelf: 'none'
+  }
+
   state = {
     options: [
       {
@@ -34,7 +38,7 @@ class BookShelf extends Component {
 
     return (
       <select value={ shelf } onChange={ (event) => onChange(event.target.value) }>
-        <option value='none' disabled>Move to...</option>
+        <option value='' disabled>Move to...</option>
 
         { options.map(({ label, value }) => (
           <option key={ value } value={ value }>{ label }</option>
