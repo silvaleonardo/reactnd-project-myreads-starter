@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
-import * as BooksAPI from './BooksAPI'
+import * as BooksAPI from '../BooksAPI'
 
-import Loader from './components/Loader'
+import Loader from '../components/Loader'
 
 class ListBooks extends Component {
   state = {
