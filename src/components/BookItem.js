@@ -12,7 +12,7 @@ class BookItem extends Component {
       imageLinks: PropTypes.shape({
         smallThumbnail: PropTypes.string.isRequired
       }).isRequired,
-      shelf: PropTypes.string.isRequired
+      shelf: PropTypes.string
     }).isRequired,
     onChangeShelf: PropTypes.func.isRequired
   }
