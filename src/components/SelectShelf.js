@@ -33,8 +33,8 @@ class BookShelf extends Component {
   }
 
   render() {
-    const { shelf, onChange } = this.props;
-    const { options } = this.state;
+    const { shelf, onChange } = this.props
+    const { options } = this.state
 
     return (
       <select value={ shelf } onChange={ (event) => onChange(event.target.value) }>

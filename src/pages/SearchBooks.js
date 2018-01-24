@@ -8,37 +8,39 @@ import BookItem from '../components/BookItem'
 
 class SearchBooks extends Component {
   static propTypes = {
+    loading: PropTypes.bool.isRequired,
+    books: PropTypes.arrayOf(PropTypes.object).isRequired,
+    error: PropTypes.string,
     onChangeShelf: PropTypes.func.isRequired,
-    searchBooks: PropTypes.func.isRequired
+    onSearchBooks: PropTypes.func.isRequired
   }
 
   state = {
-    loading: false,
     query: '',
-    books: [],
-    error: ''
+    debounce: null
+  }
+
+  componentWillUnmount() {
+    this.props.onSearchBooks('')
   }
 
   queryChange(query) {
-    const { searchBooks } = this.props;
+    this.setState({ query }, () => this.debounceSearch(query))
+  }
 
-    this.setState({
-      loading: !!query,
-      error: '',
-      books: [],
-      query
+  debounceSearch(query) {
+    this.setState(({ debounce }) => {
+      clearTimeout(debounce)
+
+      return {
+        debounce: setTimeout(() => this.props.onSearchBooks(query), 400)
+      }
     })
-
-    if (query) {
-      searchBooks(query)
-        .then((books) => this.setState({ loading: false, books: books || [] }))
-        .catch(() => this.setState({ loading: false, books: [], error: 'On error occurred please try again' }))
-    }
   }
 
   render() {
-    const { onChangeShelf } = this.props
-    const { loading, query, books, error } = this.state
+    const { loading, books, error, onChangeShelf } = this.props
+    const { query } = this.state
 
     return (
       <div className='search-books'>
